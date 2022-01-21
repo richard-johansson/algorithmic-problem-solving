@@ -59,10 +59,15 @@ int main()
         for (int i=0; i<patternA.size(); i++)
         {
             string wordA{patternA[i]}, wordB{patternB[i]};
+            if (wordB[0] == '<' && wordA[0] == '<')
+            {
+                    phraseExists = false;
+                    break;
+            }
             // if there is a placeholder on either line
                 // map placeholders to words, and
                 // push the words to a stringstream
-            if (wordA[0] == '<')
+            else if (wordA[0] == '<' && wordA[wordA.length()-1] == '>')
             {
                 // if the key does not exist
                 if (patternMapA.find(wordA) == patternMapA.end())
@@ -81,7 +86,7 @@ int main()
                 }
                 //cout << "push B - A: " << wordA << " B: " << wordB << "\n";
             }
-            else if (wordB[0] == '<')
+            else if (wordB[0] == '<' && wordB[wordB.length()-1] == '>')
             {
                 // if the key does not exist
                 if (patternMapB.find(wordB) == patternMapB.end())
@@ -100,20 +105,27 @@ int main()
                 }
                 //cout << "push A - A: " << wordA << " B: " << wordB << "\n";
             }
-            else
+            else if (wordA == wordB)
             {
                 //cout << "A[1]: " << wordA[1] << "\n";
                 //cout << "push A - A: " << wordA << " B: " << wordB << "\n";
                 finalLine << wordA << ' ';
             }
+            else 
+            {
+                phraseExists = false;
+                break;
+            }
         }
         // Print the phrase
-        if (phraseExists)
+        if (phraseExists && !finalLine.str().empty())
         {
+            //cout << numberOfTestCases << ": " << finalLine.str() << "\n";
             cout << finalLine.str() << "\n";
         }
         else
         {
+            //cout << numberOfTestCases << ":-\n";
             cout << "-\n";
         }
     }
