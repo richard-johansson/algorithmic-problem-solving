@@ -1,2 +1,2 @@
-# tddd95-algorithmic-problem-solving
-
+# TDDD95 - Algorithmic Problem Solving
+https://liu.kattis.com/courses/AAPS/AAPS22
