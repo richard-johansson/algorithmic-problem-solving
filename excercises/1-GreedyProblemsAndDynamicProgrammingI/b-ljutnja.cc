@@ -72,47 +72,50 @@ void print_anger_2(int children, int candies, vector<int> childrenWishes)
     }
     //cout << anger << endl;
 }
+/*
+    give most candy to those who want most, goal is to have the kids equally mad
 
-void print_anger_3(int children, int candies, int sumWishes, vector<int> childrenWishes)
+    <=> take candy (wishes - candy) from those who have least
+    
+    candies     5
+    wishes      [ 5 1 7 1 ]
+    sumOfWish   14
+    anger       [ ]
+    max sorted  [ 7 5 1 1 ]
+    min sorted  [ 1 1 5 7 ]
+                [ 1-0 1-0 5-2 7-3 ]
+    after       [ 1 1 3 4 ]
+*/
+void print_anger_3(unsigned long long int children, unsigned long long int candies, long long int sumWishes, vector<unsigned long long int> childrenWishes)
 {
     sort(childrenWishes.begin(), childrenWishes.end(), [](int a, int b)
     {
-        return a < b;
+        return a > b;
     });
-    //cout << "sorted wishes: [ ";
-    for (auto &wish : childrenWishes)
-    {
-        //cout << wish << " ";
-    }
-    //cout << "]" << endl;
     
-    /*
-        give most candy to those who want most, goal is to have the kids equally mad
+    unsigned long long int candiesToGive {sumWishes - candies}, anger{0};
 
-        <=> take candy (wishes - candy) from those who have least
-        
-        wishes      [ 5 1 7 1 ]
-        sum         14
-        anger       [ ]
-        max sorted  [ 7 5 1 1 ]
-        min sorted  [ 1 1 5 7 ]
-                    [ 1-0 1-0 5-2 7-3 ]
-        candies: 5
-        after       [ 1 1 3 4 ]
-    */
-    int candiesLeft{sumWishes - candies}, missingCandies{0};
-    unsigned long long int anger{0};
-    //cout << "candiesLeft: " << candiesLeft << endl;
+    cout << "sorted wishes: [ ";
     for (auto &wish : childrenWishes)
     {
-        int candiesTaken = min(wish, candiesLeft/children);
-        //missingCandies = wish - candy;
-        
-        anger += candiesTaken * candiesTaken;
-        candiesLeft -= candiesTaken;
-        --children;
+        cout << wish << " ";
+    }
+    cout << "]" << endl;
 
-        //cout << "wish: " << wish << " left/children: " << candiesLeft/children << " takesCand: " << candiesTaken << " anger: " << candiesTaken * candiesTaken << endl;
+    for (unsigned long long int &wish : childrenWishes)
+    {
+        unsigned long long int candy = min(wish, candiesToGive/children);
+        
+        anger += candy * candy;
+        candiesToGive -= candy;
+        --children;
+        
+        cout << "wish: " << wish 
+            << " andiesToGive/children: " << candiesToGive/children 
+            << " candy: " << candy 
+            << " anger: " << candy * candy 
+            << " candiesToGive: " << candiesToGive 
+            << " children: " << children << endl;
     }
     cout << anger << endl;
 }
@@ -123,21 +126,21 @@ int main()
     cin.tie(NULL);
 
     // Data input
-    int candies{0}, children{0};
+    unsigned long long int candies{0}, children{0};
     cin >> candies >> children;
 
-    //int childrenWishes[children];
-    vector<int> childrenWishes{};
-    int wish{0}, i{0}, sumWishes{0};
-    //cout << "candies: " << candies << " children: " << children << endl;
-    //cout << "wishes: [ ";
+    vector<unsigned long long int> childrenWishes{};
+    int wish{0};
+    unsigned long long int sumWishes{0};
+    cout << "candies: " << candies << " children: " << children << endl;
+    
+    
     while(cin >> wish)
     {
         sumWishes += wish;
         childrenWishes.push_back(wish);
-        //cout << wish << " ";
     }
-    //cout << "]\nsum of wishes: " << sumWishes << endl;
+    //cout << "sum of wishes: " << sumWishes << endl;
 
     //print_anger_1(children, candies, sumWishes);
     //print_anger_2(children, candies, childrenWishes);
