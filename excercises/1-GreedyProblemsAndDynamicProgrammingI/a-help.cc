@@ -1,7 +1,10 @@
-/*
-* Compile with g++ -std=c++17 a-help.cc 
-* Run with ./a.out < ../../test.txt 
-*/
+/**
+ * @file a-help.cc
+ * @author Richard Johansson (ricjo462@student.liu.se)
+ * @brief 
+ * @version 1.0
+ * @date 2022-01-26
+ */
 #include <iostream>
 #include <string>
 #include <vector>
@@ -31,37 +34,36 @@ vector<string> getvector(string const& line)
     return pattern;
 }
 
-bool find_phrase_from_word(unordered_map<string,string> &patternMap, string const& mainWord, string const& secondWord, stringstream &finalLine)
+bool find_phrase_from_word(unordered_map<string,string> &mainPatternMap, unordered_map<string,string> &secondPatternMap, string const& mainWord, string const& secondWord, stringstream &finalLine)
 {
     // if value is a placeholder
     if (secondWord[0] == '<' && secondWord[secondWord.length()-1] == '>')
     {
         // key exist
-        if (patternMap.find(mainWord) != patternMap.end())
+        if (mainPatternMap.find(mainWord) != mainPatternMap.end())
         {
-            finalLine << patternMap[mainWord] << ' ';
+            finalLine << mainPatternMap[mainWord] << ' ';
         }
         // value exist as key
-        else if(patternMap.find(secondWord) != patternMap.end())
+        else if(secondPatternMap.find(secondWord) != mainPatternMap.end())
         {
-            // TODO: fix problem with value here is stored in a different map!!
-            finalLine << patternMap[secondWord] << ' ';
+            finalLine << secondPatternMap[secondWord] << ' ';
         }
-        // no key exists
+        // no key exists yet
         else
         {
-            return false;
+            finalLine << "random_word" << ' ';
         }
     }
     // value is not a placeholder
     // key does not exist
-    else if (patternMap.find(mainWord) == patternMap.end() && secondWord[0] != '<')
+    else if (mainPatternMap.find(mainWord) == mainPatternMap.end() && secondWord[0] != '<')
     {
-        patternMap[mainWord] = secondWord;
+        mainPatternMap[mainWord] = secondWord;
         finalLine << secondWord << ' ';
     }
     // key exists and matches word
-    else if (patternMap[mainWord] == secondWord)
+    else if (mainPatternMap[mainWord] == secondWord)
     {
         finalLine << secondWord << ' ';
     }
@@ -69,7 +71,6 @@ bool find_phrase_from_word(unordered_map<string,string> &patternMap, string cons
     {
         return false;
     }
-    //cout << "push B - A: " << mainWord << " B: " << secondWord << "\n";
     return true;
 }
 
@@ -87,19 +88,24 @@ bool find_phrase(vector<string> const& patternA, vector<string> const& patternB,
     unordered_map<string,string> patternMapA{}, patternMapB{};
     bool phraseExists{true};
 
+    // early break
+    if (patternA.size() != patternB.size())
+    {
+        return false;
+    }
+
     // loop through each pattern
     for (int i=0; i<patternA.size(); i++)
     {
         string wordA{patternA[i]}, wordB{patternB[i]};
-        // cout << "patA: " << patternA[i] << " patB: " << patternB[i] << "\n";
 
         if (wordA[0] == '<' && wordA[wordA.length()-1] == '>')
         {
-            phraseExists = find_phrase_from_word(patternMapA, wordA, wordB, finalLine);
+            phraseExists = find_phrase_from_word(patternMapA, patternMapB, wordA, wordB, finalLine);
         }
         else if (wordB[0] == '<' && wordB[wordB.length()-1] == '>')
         {
-            phraseExists = find_phrase_from_word(patternMapB, wordB, wordA, finalLine);
+            phraseExists = find_phrase_from_word(patternMapB, patternMapA, wordB, wordA, finalLine);
         }
         else if (wordA == wordB)
         {
@@ -117,12 +123,10 @@ void print_phrase(stringstream &phrase, bool phraseExists)
 {
     if (phraseExists && !phrase.str().empty())
     {
-        //cout << numberOfTestCases << ": " << finalLine.str() << "\n";
         cout << phrase.str() << "\n";
     }
     else
     {
-        //cout << numberOfTestCases << ":-\n";
         cout << "-\n";
     }
 }
@@ -152,6 +156,7 @@ int main()
         stringstream finalLine{};
         phraseExists = find_phrase(patternA, patternB, finalLine);
 
+        // Check length
         print_phrase(finalLine, phraseExists);
     }
     return 0;
