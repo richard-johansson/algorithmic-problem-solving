@@ -50,8 +50,9 @@ void print_phrase(bool phraseExists, vector<string> phrase)
     {
         for (auto const& word : phrase)
         {
-            cout << word << "\n";
+            cout << word << " ";
         }
+        cout << "\n";
     }
     else
     {
@@ -68,7 +69,7 @@ void print_phrase(bool phraseExists, vector<string> phrase)
  * @return true 
  * @return false 
  */
-bool find_phrase(vector<string> const& patternA, vector<string> const& patternB)
+bool find_phrase(vector<string> & patternA, vector<string> & patternB)
 {
     // early break
     if (patternA.size() != patternB.size())
@@ -76,29 +77,47 @@ bool find_phrase(vector<string> const& patternA, vector<string> const& patternB)
         return false;
     }
 
+iterate_again:;
     // loop through each pattern
     for (int i=0; i<patternA.size(); i++)
     {
         string wordA{patternA[i]}, wordB{patternB[i]};
-        cout << wordA << " " << wordB << endl;
 
         if (placeholder(wordA) && !placeholder(wordB))
         {
             replace(patternA.begin(), patternA.end(), wordA, wordB);
+            goto iterate_again;
         }
-        /*
         else if (!placeholder(wordA) && placeholder(wordB))
         {
             replace(patternB.begin(), patternB.end(), wordB, wordA);
+            goto iterate_again;
         }
-        else if (placeholder(wordA) && placeholder(wordB))
+    }
+
+    for (int i=0; i<patternA.size(); i++)
+    {
+        string wordA{patternA[i]}, wordB{patternB[i]};
+
+        if (placeholder(wordA) && placeholder(wordB))
         {
-            string random_word{"x"};
+            string random_word{"word"};
             replace(patternA.begin(), patternA.end(), wordA, random_word);
             replace(patternB.begin(), patternB.end(), wordB, random_word);
+            goto iterate_again;
         }
-        */
     }
+    // cout << "patternA: ";
+    // for (int i{0}; i<patternA.size(); ++i)
+    // {
+    //     cout << patternA[i] << " ";
+    // }
+    // cout << "\npatternB: ";
+    // for (int i{0}; i<patternB.size(); ++i)
+    // {
+    //     cout << patternB[i] << " ";
+    // }
+    // cout << "\n";
 
     // Check that both patterns match
     for (int i{0}; i<patternA.size(); ++i)
@@ -142,7 +161,6 @@ int main()
 
         phraseExists = find_phrase(patternA, patternB);
 
-        // Check length
         print_phrase(phraseExists, patternA);
     }
 
