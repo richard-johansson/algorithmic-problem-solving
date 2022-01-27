@@ -86,6 +86,7 @@ bool find_phrase(vector<string> const& patternA, vector<string> const& patternB)
         {
             replace(patternA.begin(), patternA.end(), wordA, wordB);
         }
+        /*
         else if (!placeholder(wordA) && placeholder(wordB))
         {
             replace(patternB.begin(), patternB.end(), wordB, wordA);
@@ -96,6 +97,7 @@ bool find_phrase(vector<string> const& patternA, vector<string> const& patternB)
             replace(patternA.begin(), patternA.end(), wordA, random_word);
             replace(patternB.begin(), patternB.end(), wordB, random_word);
         }
+        */
     }
 
     // Check that both patterns match
