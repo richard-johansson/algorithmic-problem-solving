@@ -5,24 +5,36 @@
  * @version 1.0
  * @date 2022-01-27
  * 
+ * https://en.wikipedia.org/wiki/Knapsack_problem#0-1_knapsack_problem
+ * 
  */
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <utility>
+#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-vector<int> solve(int const& maxCapacity, vector<int> const& values, vector<int> const& weights)
+int solve(int maxCapacity, vector<int> &values, vector<int> &weights)
 {
-    // * https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/
-    vector<int> chosenItems{0};
+    int state{sizeof(values) / sizeof(values[0])};
+    int bestValue[maxCapacity+1];
+    memset(bestValue, 0, sizeof(bestValue));
 
-    // Initialize dynamic programming array
-
-
-    return chosenItems;
+    for(int i{1}; i<state+1; ++i)
+    {
+        for(int capacity{maxCapacity}; capacity>=0; --capacity)
+        {
+            if (weights[i-1] <= capacity)
+            {
+                bestValue[capacity] = max(bestValue[capacity], bestValue[capacity - weights[i-1]] + values[i-1]);
+            }
+        }
+    }
+    return bestValue[maxCapacity];
 }
 
 int main()
@@ -46,6 +58,7 @@ int main()
         }
 
         // Test output
+        /*
         cout << "------------------\n";
         cout << "maxCapacity: " << maxCapacity << endl;
         cout << "qtyObjects: " << qtyObjects << endl;
@@ -62,17 +75,22 @@ int main()
         }
         cout << "]\n";
         cout << "SOLUTION:\n";
+        */
 
         // Solve
-        vector<int> chosenItems = solve(maxCapacity, values, weights);
+        int bestValue = solve(maxCapacity, values, weights);
 
+        
         // Output
+        cout << bestValue << "\n";
+        /*
         cout << chosenItems.size() << "\n";
         for (auto &item : chosenItems)
         {
             cout << item << " ";
         }
         cout << "\n";
+        */
     }
     return 0;
 }
