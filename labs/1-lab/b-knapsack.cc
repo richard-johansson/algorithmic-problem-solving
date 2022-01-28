@@ -5,7 +5,6 @@
  * @version 1.0
  * @date 2022-01-27
  * 
- * https://en.wikipedia.org/wiki/Knapsack_problem#0-1_knapsack_problem
  * 
  */
 
@@ -14,7 +13,6 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -35,6 +33,28 @@ int solve(int maxCapacity, vector<int> &values, vector<int> &weights)
         }
     }
     return bestValue[maxCapacity];
+}
+
+int* find_indices(int item, int maxCapacity)
+{
+/*
+ * https://en.wikipedia.org/wiki/Knapsack_problem#0-1_knapsack_problem
+ * https://www.geeksforgeeks.org/printing-items-01-knapsack/
+ */
+    int indices[maxCapacity];
+
+    if (item == 0)
+    {
+        return {};
+    }
+    if (indices[item, maxCapacity] > indices[item-1, maxCapacity])
+    {
+        return 
+    }
+
+
+
+    return indices;
 }
 
 int main()
