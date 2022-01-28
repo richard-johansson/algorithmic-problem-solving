@@ -22,7 +22,7 @@ int main()
     cin >> numberOfTestCases;
     // For every test case
     while(numberOfTestCases--)
-    {   
+    {
         // Read input
         int numberOfDistances{};
         cin >> numberOfDistances;
