@@ -26,7 +26,6 @@ vector<int> get_primes(int x)
     // Save all 2s that divide x
     while (x % 2 == 0)
     {
-        //factor.push_back(2);
         primes[2] += 1;
         x = x/2;
     }
@@ -38,17 +37,14 @@ vector<int> get_primes(int x)
         // While i divides n, save i and divide x
         while (x % i == 0)
         {
-            //factor.push_back(i);
             primes[i] += 1;
             x = x/i;
         }
     }
 
-    // This condition is to handle the case when n
-    // is a prime number greater than 2
+    // If x is a prime number greater than 2
     if (x > 2)
     {
-        //factor.push_back(x);
         primes[x] += 1;
     }
 
@@ -64,13 +60,10 @@ int get_gcd(vector<int> primes)
 {
     int result = primes[0];
 
-    // cout << "GCD: ";
     for (int i{0}; i<primes.size(); ++i)
     {
-        // cout << result << " ";
         result = gcd(result, primes[i]);
     }
-    // cout << "\n";
     return result;
 }
 
@@ -83,27 +76,11 @@ int main()
     while(cin >> x)
     {
         if (x == 0) break;
-        // Test output
-        // cout << x << "\n";
-
-        // https://cr.yp.to/papers/powers-ams.pdf
-        // https://en.wikipedia.org/wiki/Perfect_power
-
-        // n = m^k
-        // k = ap, p is prime
-        // --> n = m^(ap)
 
         // factor n into primes
         vector<int> factor{get_primes(x)};
 
-        // cout << "Primes: ";
-        // for (auto &a : factor)
-        // {
-        //     cout << a << " ";
-        // }
-        // cout << "\n";
-
-        // x is perfect power iff gcd(factors) > 1
+        // x is perfect power iff gcd(factors) > 0
         int gcd{get_gcd(factor)};
 
         if (gcd > 0)
