@@ -13,41 +13,6 @@
 
 using namespace std;
 
-long int solve(long int x)
-{
-    bool is_negative{false};
-    for (long int i{32}; i>0; --i)
-    {
-        // Check if negative
-        if (x < 0)
-        {
-            is_negative = true;
-            x = abs(x);
-        }
-
-        long double inverted_i = 1 / (long double) i;
-        long double root = pow(x , inverted_i);
-
-        // Early break if the root is NOT an integer
-        long double intpart_root;
-        if ( modf(root, &intpart_root) != 0.0)
-        {
-            continue;
-        }
-
-        int int_root{(int) intpart_root};
-
-        // If exponent is even & x is negative --> continue
-        if (is_negative && (i % 2 == 0))
-        {
-            continue;
-        }
-        return i;
-    }
-    return x;
-}
-
-
 int main()
 {
     ios_base::sync_with_stdio(false);
@@ -57,8 +22,37 @@ int main()
     while(cin >> x)
     {
         if (x == 0) break;
-        
-        cout << solve(x) << endl;;
+
+            bool is_negative{false};
+        // Check if negative
+        if (x < 0)
+        {
+            is_negative = true;
+            x = abs(x);
+        }
+        for (long int i{31}; i>0; --i)
+        {
+            long double inverted_i = 1 / (long double) i;
+            long double root = pow(x , inverted_i);
+
+            // Early break if the root is NOT an integer
+            long double intpart_root;
+            if ( modf(root, &intpart_root) != 0.0)
+            {
+                continue;
+            }
+
+            int int_root{(int) intpart_root};
+
+            // If exponent is even & x is negative --> continue
+            if (is_negative && (i % 2 == 0))
+            {
+                continue;
+            }
+
+            cout << i << "\n";
+            break;
+        }
     }
 
     return 0;
