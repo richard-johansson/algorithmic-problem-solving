@@ -23,7 +23,7 @@ int main()
     {
         if (x == 0) break;
 
-            bool is_negative{false};
+        bool is_negative{false};
         // Check if negative
         if (x < 0)
         {
@@ -36,8 +36,10 @@ int main()
             long double root = pow(x , inverted_i);
 
             // Early break if the root is NOT an integer
-            long double intpart_root;
-            if ( modf(root, &intpart_root) != 0.0)
+            long long intpart_root = root;
+            // cout << " " << intpart_root << endl;
+            // if ( modf(root, &intpart_root) != 0.0)
+            if ( root - intpart_root >= 0.00000001)
             {
                 continue;
             }
