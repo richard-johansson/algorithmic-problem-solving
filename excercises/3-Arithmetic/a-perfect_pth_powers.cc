@@ -23,12 +23,10 @@ long int solve(long int x)
         {
             is_negative = true;
             x = abs(x);
-            // cout << "NEGATIVE: " << x << endl;
         }
 
         long double inverted_i = 1 / (long double) i;
         long double root = pow(x , inverted_i);
-        // cout << "Root: " << root << endl;
 
         // Early break if the root is NOT an integer
         long double intpart_root;
@@ -39,7 +37,6 @@ long int solve(long int x)
 
         int int_root{(int) intpart_root};
 
-        //cout << "i: " << i << endl;
         // If exponent is even & x is negative --> continue
         if (is_negative && (i % 2 == 0))
         {
@@ -60,9 +57,7 @@ int main()
     while(cin >> x)
     {
         if (x == 0) break;
-
-        // cout << "x: " << x << "\n";
-
+        
         cout << solve(x) << endl;;
     }
 
