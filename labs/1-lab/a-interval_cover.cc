@@ -1,130 +1,97 @@
-/**
- * @file a-interval_cover.cc
- * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief 
- * @version 1.0
- * @date 2022-01-27
- */
-#include <iostream>
-#include <string>
-#include <utility>
-#include <vector>
 #include <algorithm>
-
+#include <vector>
+#include <cstdio>
+#include <iostream>
+#include <cmath>
 using namespace std;
 
-/**
- * @brief Finds which sub-intervals that are needed for complete coverage.
- * 
- * @param intervals 
- * @param start 
- * @param end 
- * @return vector<int> The index of the needed intervals.
- */
-vector<int> covering(vector<pair<double, double>> intervals, double start, double end)
-{
-    vector<int> chosenIntervals{0};
-    int chosenIndex{0};
-    /* Algorithm: 
-        * Choose the interval that covers the beginning and covers most of the
-        * rest of the interval. 
-        * Then loop over the remaining intervals and find the one that covers
-        * the end of the interval before and covers most of the remaining 
-        * interval.
-    */
+struct interval{
+    double a;
+    double b;
+    int index;
 
-    sort(intervals.begin(), intervals.end());
-    double currentStart{start}, currentEnd{start};
-    int numberOfIntervalsNeeded{0};
+    bool operator < (interval x) const {
+        return a < x.a;
+    }
+};
 
-    cout << "SOLVING\n";
-    cout << "currentStart: " << currentStart << " currentEnd: " << currentEnd << "\n";
+double A,B,maxx;    
+int n, it, best;
+vector<int> cover;
+bool possible;
 
-    for (int i{0}; i<intervals.size(); ++i)
-    {
-        // If this interval covers the start of the last interval
-        if(intervals[i].first <= currentStart)
-        {
-            // Update currentEnd if this end is longer than the saved one
-            currentEnd = max(intervals[i].second, currentEnd);
-            cout << "new currentEnd: " << currentEnd << " start: " << intervals[i].first << "\n";
-        }
-        else
-        {
-            // Update the start value with the best end value
-            currentStart = currentEnd;
-            cout << "new currentStart: " << currentStart << "\n";
+int main(){
+	int n,l;
+	double r,w,x;
+	while (cin >> n >> l >> w){
+		interval intervals[n];
+		for (int i=0;i<n;i++){
+			cin >> x >> r; // position radius => build intervals
+			if (r >= w/2){
+				double p = sqrt(r*r -w*w/4);
+				intervals[i].a = x - p;
+				intervals[i].b = x + p;
+				intervals[i].index = i;
+			}
+			else {
+				intervals[i].a = -1;
+				intervals[i].b = -1;
+				intervals[i].index = i;
+			}
+		}
+		A = 0;
+		B = l;
 
-            ++numberOfIntervalsNeeded;
-            chosenIntervals.push_back(i);
-
-            // Break the loop if we are done or the interval is already covered
-            if (currentEnd >= end || intervals[i].first > currentEnd)
-            {
+        sort(intervals,intervals+n); // increasing
+        it = 0;
+        cover.clear();
+        possible = true;
+        // it++ until sth reasonable
+        while (intervals[it].b < A){
+            it++;
+            if (it == n){
+                possible = false;
                 break;
             }
         }
-    }
-    // If complete coverage is not found
-    if (currentEnd < end)
-    {
-        return {-1};
-    }
-    return chosenIntervals;
-}
-
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    // Read until no more input
-    double mainStart{}, mainEnd{};
-        
-    cout << "------------------" << endl;
-    while(cin >> mainStart >> mainEnd)
-    {
-        //pair<double, double> intervalToCover{mainStart,mainEnd};
-        // Read the data
-        int numberOfIntervals{0};
-        cin >> numberOfIntervals;
-
-        vector<pair<double, double>> intervals{};
-        for (int i{0}; i<numberOfIntervals; ++i)
-        {
-            double subStart{}, subEnd{};
-            cin >> subStart >> subEnd;
-            intervals.push_back(make_pair(subStart, subEnd));
+        if (A == B && possible){
+            if (intervals[it].a <= A && intervals[it].b >= A)
+                cover.push_back(intervals[it].index);
+            else possible = false;
         }
-
-        // Test output
-        cout << "numberOfIntervals: " << numberOfIntervals << endl;
-        cout << "interval: [" << mainStart << ", " << mainEnd << "]" << endl;
-        cout << "available intervals: " << endl;
-        for (auto &interval : intervals)
-        {
-            cout << "[" << interval.first << ", " << interval.second << "]" << endl;
-        }
-
-        // Call the solver
-        vector<int> chosenIntervals = covering(intervals, mainStart, mainEnd);
-
-        cout << "SOLUTION: ";
-        // Output the solution
-        if (chosenIntervals[0] == -1)
-        {
-            cout << "impossible\n";
-        }
-        else
-        {
-            cout << chosenIntervals.size() << endl;
-            for (auto& intervalIndex : chosenIntervals)
-            {
-                cout << intervalIndex << " ";
+        while (A < B && possible){
+            if (it == n){
+                possible = false;
+                break;
             }
-            cout << "\n";
+            maxx = -1;
+            best = -1;
+            while (intervals[it].a <= A){
+                if (intervals[it].b - A > maxx){
+                    maxx = intervals[it].b - A;
+                    best = it;
+                }
+                it++;
+                if (it == n) break;
+            }
+            if (best == -1){
+                possible = false;
+                break;
+            }
+            cover.push_back(intervals[best].index);
+            A = intervals[best].b;
         }
-        cout << "------------------" << endl;
-    }
+        if (!possible)
+            cout << -1 << "\n"; 
+            // printf("-1\n");
+        else {
+            printf("%lu\n",cover.size());
+            cout << cover.size() << "\n";
+        //    for (int i=0;i<cover.size();i++)
+        //            printf("%s%d",(i?" ":""),cover[i]);
+        //    printf("\n");
+        }
+	}
+
     return 0;
 }
