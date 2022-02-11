@@ -12,7 +12,7 @@ void add(int fenwickTree[], int N, int i, int val)
     ++i;
     while (i <= N)
     {
-        cout << "i: " << i << endl;
+        // cout << "i: " << i << endl;
         fenwickTree[i] += val;
         // Go to the next node (exponentially increasing interval)
         i += i & (-i);
@@ -26,7 +26,7 @@ void sum(int fenwickTree[], int i)
     // ++i;
     while (i > 0)
     {
-        cout << "i: " << i << endl;
+        // cout << "i: " << i << endl;
         result += fenwickTree[i];
         // Go to the "parent"-node in the tree
         i -= i & (-i);
@@ -49,12 +49,12 @@ int main()
     {
         fenwickTree[i] = 0;
     }
-    cout << "FT: ";
-    for (int i{0}; i<=N; ++i)
-    {
-        cout << fenwickTree[i] << " ";
-    }
-    cout << endl;
+    // cout << "FT: ";
+    // for (int i{0}; i<=N; ++i)
+    // {
+    //     cout << fenwickTree[i] << " ";
+    // }
+    // cout << endl;
 
     char op;
     int i, val;
@@ -69,26 +69,26 @@ int main()
             add(fenwickTree, N, i, val);
 
             // Test print
-            cout << Q << ": " << op << " " << i << " " << val << endl;
-            cout << "FT: ";
-            for (int i{0}; i<=N; ++i)
-            {
-                cout << fenwickTree[i] << " ";
-            }
-            cout << endl;
+            // cout << Q << ": " << op << " " << i << " " << val << endl;
+            // cout << "FT: ";
+            // for (int i{0}; i<=N; ++i)
+            // {
+            //     cout << fenwickTree[i] << " ";
+            // }
+            // cout << endl;
         }
         else
         {
             cin >> i;
 
             // Test print
-            cout << Q << ": " << op << " " << i << endl;
-            cout << "FT: ";
-            for (int i{0}; i<=N; ++i)
-            {
-                cout << fenwickTree[i] << " ";
-            }
-            cout << endl;
+            // cout << Q << ": " << op << " " << i << endl;
+            // cout << "FT: ";
+            // for (int i{0}; i<=N; ++i)
+            // {
+            //     cout << fenwickTree[i] << " ";
+            // }
+            // cout << endl;
             
             sum(fenwickTree, i);
         }
