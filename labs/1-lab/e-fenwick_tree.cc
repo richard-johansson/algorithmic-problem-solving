@@ -1,12 +1,18 @@
 /**
  * @file e-fenwick-tree.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief 
+ * @brief Program that creates a Fenwick Tree (Binary 
+ * Indexed Tree, BIT) and can add and output the sum.
+ * Time complexity is O(log n) for add and sum.
  */
 #include <iostream>
 
 using namespace std;
 
+/**
+ * @brief Updates the node at index i and its ancestors
+ * in the tree with the given value.
+ */
 void add(int fenwickTree[], int N, int i, int val)
 {
     ++i;
@@ -19,6 +25,9 @@ void add(int fenwickTree[], int N, int i, int val)
     }
 }
 
+/**
+ * @brief Outputs the sum from 0 to index i.
+ */
 void sum(int fenwickTree[], int i)
 {
     int result{0};
