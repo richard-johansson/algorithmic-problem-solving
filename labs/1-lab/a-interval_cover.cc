@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -36,7 +38,7 @@ struct Interval {
  * @param mainEnd End point of the interval to be covered
  * @return vector<int> The indicies of the chosen intervals
  */
-vector<int> minimizeSegment(vector<Interval> &intervals, int mainStart, int mainEnd)
+vector<int> minimizeSegment(vector<Interval> &intervals, double mainStart, double mainEnd)
 {
     int len = intervals.size();
 
@@ -50,30 +52,44 @@ vector<int> minimizeSegment(vector<Interval> &intervals, int mainStart, int main
     double end = mainStart - 1;
     vector<int> chosen;
 
+    // cout << "Interval to cover: start = " << start << " end = " << end << endl;
+
     // Keeps iterating until no more intervals cover current start, 
     // then updating value of current start with best end
     int i{0}, old_i{0};
-    while (i < intervals.size()) {
-        while (intervals[i].start <= start)
+    // cout << "size: " << intervals.size() << endl;
+    while (i < intervals.size()) 
+    {
+        // cout << "Interval: " << i << ": " << intervals[i].start << ", " << intervals[i].end << endl;
+        if (intervals[i].start <= start)
         {
+            // cout << "intervals[i].start <= start - " << intervals[i].start << " <= " << start << endl;
             if (intervals[i].end > end)
             {
+                // cout << "intervals[i].end > end - " << intervals[i].end << " > " << end << endl;
                 old_i = i;
+                end = intervals[i].end;
+                // cout << "NEW: " << i << ": " << intervals[i].start << ", " << intervals[i].end << endl;
             }
-            end = max(intervals[i++].end, end);
+            ++i;
         }
-        chosen.push_back(intervals[old_i].index);
+        else
+        {
+            // cout << "CHOSEN: [" << intervals[old_i].start << "," << intervals[old_i].end << "] at " << intervals[old_i].index << ", old_i: " << old_i << endl;
+            chosen.push_back(intervals[old_i].index);
+            start = end;
 
-        start = end;
-        
-        // Already covered or not able to move further
-        if (intervals[i].start > end || end >= mainEnd) {
-            break;
+            // Already covered or not able to move further
+            if (intervals[i].start > end || end >= mainEnd)
+            {
+                break;
+            }
         }
     }
  
     // If the entire target interval is not covered
-    if (end < mainEnd) {
+    if (end < mainEnd)
+    {
         return {};
     }
 
@@ -101,7 +117,7 @@ int main()
 
             intervals[i] = {start, end, i};
         }
-
+        // cout << "Interval to cover: [" << mainStart << "," << mainEnd << "]\n";
         // cout << "Intervals: \n";
         // for (int i{0}; i<intervals.size(); ++i)
         // {
@@ -127,7 +143,7 @@ int main()
                 cout << i << " ";
             }
             cout << "\n";
-            // cout << "\nChosen intervals\n";
+            // cout << "Chosen intervals\n";
             // for (auto &i : chosenIntervals)
             // {
             //     cout << "[" << intervals[i].start << "," << intervals[i].end << "] ";
