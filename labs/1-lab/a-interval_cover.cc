@@ -52,30 +52,22 @@ vector<int> minimizeSegment(vector<Interval> &intervals, double mainStart, doubl
     double end = mainStart - 1;
     vector<int> chosen;
 
-    // cout << "Interval to cover: start = " << start << " end = " << end << endl;
-
     // Keeps iterating until no more intervals cover current start, 
     // then updating value of current start with best end
     int i{0}, old_i{0};
-    // cout << "size: " << intervals.size() << endl;
     while (i < intervals.size()) 
     {
-        // cout << "Interval: " << i << ": " << intervals[i].start << ", " << intervals[i].end << endl;
         if (intervals[i].start <= start)
         {
-            // cout << "intervals[i].start <= start - " << intervals[i].start << " <= " << start << endl;
             if (intervals[i].end > end)
             {
-                // cout << "intervals[i].end > end - " << intervals[i].end << " > " << end << endl;
                 old_i = i;
                 end = intervals[i].end;
-                // cout << "NEW: " << i << ": " << intervals[i].start << ", " << intervals[i].end << endl;
             }
             ++i;
         }
         else
         {
-            // cout << "CHOSEN: [" << intervals[old_i].start << "," << intervals[old_i].end << "] at " << intervals[old_i].index << ", old_i: " << old_i << endl;
             chosen.push_back(intervals[old_i].index);
             start = end;
 
@@ -117,15 +109,6 @@ int main()
 
             intervals[i] = {start, end, i};
         }
-        // cout << "Interval to cover: [" << mainStart << "," << mainEnd << "]\n";
-        // cout << "Intervals: \n";
-        // for (int i{0}; i<intervals.size(); ++i)
-        // {
-        //     cout << "[" << intervals[i].start << ","
-        //     << intervals[i].end << "] = " 
-        //     << intervals[i].index << " ";
-        // }
-        // cout << "\nSOLUTION:\n";
 
         // Call the solver
         vector<int> chosenIntervals = minimizeSegment(intervals, mainStart, mainEnd);
@@ -143,12 +126,6 @@ int main()
                 cout << i << " ";
             }
             cout << "\n";
-            // cout << "Chosen intervals\n";
-            // for (auto &i : chosenIntervals)
-            // {
-            //     cout << "[" << intervals[i].start << "," << intervals[i].end << "] ";
-            // }
-            // cout << "\n--------------\n";
         }
     }
     return 0;
