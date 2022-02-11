@@ -1,97 +1,139 @@
-#include <algorithm>
-#include <vector>
-#include <cstdio>
+/**
+ * @file a-interval_cover.cc
+ * @author Richard Johansson (ricjo462@student.liu.se)
+ * @brief Program that solves the classic interval cover problem
+ * Time complexity: O(n log n)
+ */
 #include <iostream>
-#include <cmath>
+#include <string>
+#include <vector>
+
 using namespace std;
 
-struct interval{
-    double a;
-    double b;
+/**
+ * @brief Struct that hold the start and end values of any
+ * interval, as well as the initial index of it.
+ * Intervals can be compared with the < operator.
+ */
+struct Interval {
+    double start;
+    double end;
     int index;
 
-    bool operator < (interval x) const {
-        return a < x.a;
+    bool operator< (Interval compare) const 
+    {
+        return start < compare.start;
     }
 };
 
-double A,B,maxx;    
-int n, it, best;
-vector<int> cover;
-bool possible;
+/**
+ * @brief Function that finds the minimal number of and which of the given
+ * intervals that cover the start and end of the given main interval
+ * First sorts the interval and then iterates it once --> O(n log n) time.
+ * 
+ * @param intervals Intervals available to cover the main interval
+ * @param mainStart Start point of the interval to be covered
+ * @param mainEnd End point of the interval to be covered
+ * @return vector<int> The indicies of the chosen intervals
+ */
+vector<int> minimizeSegment(vector<Interval> &intervals, int mainStart, int mainEnd)
+{
+    int len = intervals.size();
 
-int main(){
-	int n,l;
-	double r,w,x;
-	while (cin >> n >> l >> w){
-		interval intervals[n];
-		for (int i=0;i<n;i++){
-			cin >> x >> r; // position radius => build intervals
-			if (r >= w/2){
-				double p = sqrt(r*r -w*w/4);
-				intervals[i].a = x - p;
-				intervals[i].b = x + p;
-				intervals[i].index = i;
-			}
-			else {
-				intervals[i].a = -1;
-				intervals[i].b = -1;
-				intervals[i].index = i;
-			}
-		}
-		A = 0;
-		B = l;
+    sort(intervals.begin(), intervals.end());
 
-        sort(intervals,intervals+n); // increasing
-        it = 0;
-        cover.clear();
-        possible = true;
-        // it++ until sth reasonable
-        while (intervals[it].b < A){
-            it++;
-            if (it == n){
-                possible = false;
-                break;
-            }
-        }
-        if (A == B && possible){
-            if (intervals[it].a <= A && intervals[it].b >= A)
-                cover.push_back(intervals[it].index);
-            else possible = false;
-        }
-        while (A < B && possible){
-            if (it == n){
-                possible = false;
-                break;
-            }
-            maxx = -1;
-            best = -1;
-            while (intervals[it].a <= A){
-                if (intervals[it].b - A > maxx){
-                    maxx = intervals[it].b - A;
-                    best = it;
-                }
-                it++;
-                if (it == n) break;
-            }
-            if (best == -1){
-                possible = false;
-                break;
-            }
-            cover.push_back(intervals[best].index);
-            A = intervals[best].b;
-        }
-        if (!possible)
-            cout << -1 << "\n"; 
-            // printf("-1\n");
-        else {
-            printf("%lu\n",cover.size());
-            cout << cover.size() << "\n";
-        //    for (int i=0;i<cover.size();i++)
-        //            printf("%s%d",(i?" ":""),cover[i]);
-        //    printf("\n");
-        }
-	}
+    // Insert INT_MAX to prevent going out of bounds
+    // last in the array but with non-relevant interval index
+    intervals.push_back({INT_MAX, INT_MAX, -1});
+ 
+    double start = mainStart;
+    double end = mainStart - 1;
+    vector<int> chosen;
 
+    // Keeps iterating until no more intervals cover current start, 
+    // then updating value of current start with best end
+    int i{0}, old_i{0};
+    while (i < intervals.size()) {
+        while (intervals[i].start <= start)
+        {
+            if (intervals[i].end > end)
+            {
+                old_i = i;
+            }
+            end = max(intervals[i++].end, end);
+        }
+        chosen.push_back(intervals[old_i].index);
+
+        start = end;
+        
+        // Already covered or not able to move further
+        if (intervals[i].start > end || end >= mainEnd) {
+            break;
+        }
+    }
+ 
+    // If the entire target interval is not covered
+    if (end < mainEnd) {
+        return {};
+    }
+
+    return chosen;
+}
+
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    // Read until no more input
+    double mainStart, mainEnd;
+    while(cin >> mainStart >> mainEnd)
+    {
+        int numberOfIntervals;
+        cin >> numberOfIntervals;
+
+        vector<Interval> intervals(numberOfIntervals);
+        for (int i{0}; i<numberOfIntervals; ++i)
+        {
+            double start, end;
+            cin >> start >> end;
+
+            intervals[i] = {start, end, i};
+        }
+
+        // cout << "Intervals: \n";
+        // for (int i{0}; i<intervals.size(); ++i)
+        // {
+        //     cout << "[" << intervals[i].start << ","
+        //     << intervals[i].end << "] = " 
+        //     << intervals[i].index << " ";
+        // }
+        // cout << "\nSOLUTION:\n";
+
+        // Call the solver
+        vector<int> chosenIntervals = minimizeSegment(intervals, mainStart, mainEnd);
+
+        // Print result
+        if (chosenIntervals.size() == 0)
+        {
+            cout << "impossible\n";
+        }
+        else
+        {
+            cout << chosenIntervals.size() << "\n";
+            for (auto &i : chosenIntervals)
+            {
+                cout << i << " ";
+            }
+            cout << "\n";
+            // cout << "\nChosen intervals\n";
+            // for (auto &i : chosenIntervals)
+            // {
+            //     cout << "[" << intervals[i].start << "," << intervals[i].end << "] ";
+            // }
+            // cout << "\n--------------\n";
+        }
+    }
     return 0;
 }
