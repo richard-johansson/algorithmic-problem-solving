@@ -15,10 +15,10 @@ using namespace std;
  */
 void add(long long fenwickTree[], long long N, long long i, long long val)
 {
+    // Tree is indexed from 1
     ++i;
     while (i <= N)
     {
-        // cout << "i: " << i << endl;
         fenwickTree[i] += val;
         // Go to the next node (exponentially increasing interval)
         i += i & (-i);
@@ -31,11 +31,8 @@ void add(long long fenwickTree[], long long N, long long i, long long val)
 void sum(long long fenwickTree[], long long i)
 {
     long long result{0};
-    // Fenwick tree is indexed from 1
-    // ++i;
     while (i > 0)
     {
-        // cout << "i: " << i << endl;
         result += fenwickTree[i];
         // Go to the "parent"-node in the tree
         i -= i & (-i);
@@ -49,7 +46,6 @@ int main()
     cin.tie(NULL);
 
     long long N, Q;
-
     cin >> N >> Q;
 
     // Init the Fenwick tree
@@ -58,47 +54,21 @@ int main()
     {
         fenwickTree[i] = 0;
     }
-    // cout << "FT: ";
-    // for (int i{0}; i<=N; ++i)
-    // {
-    //     cout << fenwickTree[i] << " ";
-    // }
-    // cout << endl;
 
+    // Read input and call corresponding function
     char op;
     long long i, val;
-    // For every test case
     while(Q--)
     {
-        // Read input
         cin >> op;
         if (op == '+')
         {
             cin >> i >> val;
             add(fenwickTree, N, i, val);
-
-            // Test print
-            // cout << Q << ": " << op << " " << i << " " << val << endl;
-            // cout << "FT: ";
-            // for (int i{0}; i<=N; ++i)
-            // {
-            //     cout << fenwickTree[i] << " ";
-            // }
-            // cout << endl;
         }
         else
         {
             cin >> i;
-
-            // Test print
-            // cout << Q << ": " << op << " " << i << endl;
-            // cout << "FT: ";
-            // for (int i{0}; i<=N; ++i)
-            // {
-            //     cout << fenwickTree[i] << " ";
-            // }
-            // cout << endl;
-            
             sum(fenwickTree, i);
         }
     }
