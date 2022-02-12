@@ -9,11 +9,15 @@
 
 using namespace std;
 
+// Global variables for speed
+long long N, Q, i, val;
+long long fenwickTree[5000001];
+
 /**
  * @brief Updates the node at index i and its ancestors
  * in the tree with the given value.
  */
-void add(long long fenwickTree[], long long N, long long i, long long val)
+void add(long long i, long long val)
 {
     // Tree is indexed from 1
     ++i;
@@ -28,7 +32,7 @@ void add(long long fenwickTree[], long long N, long long i, long long val)
 /**
  * @brief Outputs the sum from 0 to index i.
  */
-void sum(long long fenwickTree[], long long i)
+void sum(long long i)
 {
     long long result{0};
     while (i > 0)
@@ -45,11 +49,11 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    long long N, Q;
+    // long long N, Q;
     cin >> N >> Q;
 
     // Init the Fenwick tree
-    long long fenwickTree[N+1];
+    // long long fenwickTree[N+1];
     for (long long i{0}; i<=N; ++i)
     {
         fenwickTree[i] = 0;
@@ -64,12 +68,12 @@ int main()
         if (op == '+')
         {
             cin >> i >> val;
-            add(fenwickTree, N, i, val);
+            add(i, val);
         }
         else
         {
             cin >> i;
-            sum(fenwickTree, i);
+            sum(i);
         }
     }
     return 0;
