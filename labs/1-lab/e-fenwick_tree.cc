@@ -13,7 +13,7 @@ using namespace std;
  * @brief Updates the node at index i and its ancestors
  * in the tree with the given value.
  */
-void add(int fenwickTree[], int N, int i, int val)
+void add(long long fenwickTree[], long long N, long long i, long long val)
 {
     ++i;
     while (i <= N)
@@ -28,9 +28,9 @@ void add(int fenwickTree[], int N, int i, int val)
 /**
  * @brief Outputs the sum from 0 to index i.
  */
-void sum(int fenwickTree[], int i)
+void sum(long long fenwickTree[], long long i)
 {
-    int result{0};
+    long long result{0};
     // Fenwick tree is indexed from 1
     // ++i;
     while (i > 0)
@@ -48,13 +48,13 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int N, Q;
+    long long N, Q;
 
     cin >> N >> Q;
 
     // Init the Fenwick tree
-    int fenwickTree[N+1];
-    for (int i{0}; i<=N; ++i)
+    long long fenwickTree[N+1];
+    for (long long i{0}; i<=N; ++i)
     {
         fenwickTree[i] = 0;
     }
@@ -66,7 +66,7 @@ int main()
     // cout << endl;
 
     char op;
-    int i, val;
+    long long i, val;
     // For every test case
     while(Q--)
     {
