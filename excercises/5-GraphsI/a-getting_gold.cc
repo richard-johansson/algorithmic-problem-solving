@@ -8,17 +8,6 @@
 
 using namespace std;
 
-// Print the queue
-void showq(queue<pair<int,int> > gq)
-{
-    queue<pair<int,int> > g = gq;
-    while (!g.empty()) {
-        cout << '\t' << g.front().first << g.front().second;
-        g.pop();
-    }
-    cout << '\n';
-}
-
 int main()
 {
     ios_base::sync_with_stdio(false);
