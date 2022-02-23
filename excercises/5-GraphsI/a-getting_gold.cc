@@ -47,17 +47,6 @@ int main()
         }
     }
 
-    // Test print
-    // cout << "P: " << start.first << "," << start.second << "\n";
-    // for (int h{0}; h < H; ++h)
-    // {
-    //     for (int w{0}; w < W; ++w)
-    //     {
-    //         cout << map[h][w];
-    //     }
-    //     cout << "\n";
-    // }
-
     // Flood fill queue
     queue<pair<int,int> > myQueue;
     myQueue.push(start);
@@ -81,13 +70,11 @@ int main()
             break;
         pair<int,int> curr = myQueue.front();
         myQueue.pop();
-        // cout << "CURR: " << curr.first << " " << curr.second << "\n";
 
         // Check if current square is gold
         if (map[curr.first][curr.second] == 'G')
         {
             ++gold;
-            // cout << " - gold\n";
         }
 
         // Check if we are trapped
@@ -97,7 +84,6 @@ int main()
             map[curr.first][curr.second - 1] == 'T')
         {
             continue;
-            // cout << " - trap\n";
         }
 
         // Check if we can move to square below
@@ -107,7 +93,6 @@ int main()
         {
             myQueue.push(make_pair(curr.first + 1, curr.second));
             visited[curr.first + 1][curr.second] = true;
-            // cout << "below - " << curr.first + 1 << curr.second << "\n";
         }
 
         // Check if we can move to square above
@@ -117,7 +102,6 @@ int main()
         {
             myQueue.push(make_pair(curr.first - 1, curr.second));
             visited[curr.first - 1][curr.second] = true;
-            // cout << "above - " << curr.first - 1 << curr.second << "\n";
         }
 
         // Check if we can move to square to right
@@ -127,7 +111,6 @@ int main()
         {
             myQueue.push(make_pair(curr.first, curr.second + 1));
             visited[curr.first][curr.second + 1] = true;
-            // cout << "right - " << curr.first << curr.second + 1 << "\n";
         }
 
         // Check if we can move to square to left
@@ -137,12 +120,8 @@ int main()
         {
             myQueue.push(make_pair(curr.first, curr.second - 1));
             visited[curr.first][curr.second - 1] = true;
-            // cout << "left - " << curr.first << curr.second - 1 << "\n";
         }
-        
-        // cout << "---NEXT----\nQUEUE:";
-        // showq(myQueue);
-;    }
+    }
 
     cout << gold << "\n";
 
