@@ -1,7 +1,7 @@
 /**
  * @file a-getting_gold.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief 
+ * @brief Minimum spanning tree with Kruskal's algorithm
  */
 #include <iostream>
 #include <queue>
@@ -20,35 +20,12 @@ struct edge
 {
     int point1;
     int point2;
-    double distance;
+    double weight;
 };
 
 double get_distance (node &a, node &b)
 {
-    return sqrt(pow((a.y - a.x), 2) - pow((b.y - b.x), 2));
-}
-
-int find (vector<int> &dis, int a)
-{
-    if (dis[a] == -1)
-    {
-        return a;
-    }
-    return dis[a] = find(dis, dis[a]);
-}
-
-void join (vector<int> &dis, int a, int b)
-{
-    a = find(dis, a);
-    b = find(dis, b);
-    if (a == b)
-    {
-        return;
-    }
-    else
-    {
-        dis[a] = b;
-    }
+    return sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
 }
 
 int main ()
@@ -70,35 +47,65 @@ int main ()
             cin >> n.x >> n.y;
         }
 
-        // Read edges to a vector
+        // Read all potential edges between all nodes to a vector
         vector<edge> edges;
+        vector<int> tree_id(m);
         for (int i{0}; i < m; ++i)
         {
+            tree_id[i] = i;
             for (int j{i+1}; j < m; ++j)
             {
                 edges.push_back({i, j, get_distance(nodes[i], nodes[j])});
+                
+                // Test print
+                // cout << "[" << nodes[i].x << ", " << nodes[i].y << "], " 
+                // << "[" << nodes[j].x << ", " << nodes[j].y << "]: "
+                // << get_distance(nodes[i], nodes[j]) << endl;
             }
         }
 
-        // Sort as part of Kruskals
         sort (edges.begin(), edges.end(), [](edge a, edge b)
         {
-            return a.distance < b.distance;
+            return a.weight < b.weight;
         });
 
-        vector<int> dis(n);
+        // vector<edge> result;
         double cost{0};
 
         for (edge &e : edges)
         {
-            if (find(dis, e.point1) != find(dis, e.point2))
+            // Test print
+            // cout << "[" << tree_id[e.point1] << "," << tree_id[e.point2] << "] " 
+            // << e.point1 << "," << e.point2 << ": " 
+            // << e.weight << endl;
+
+            if (tree_id[e.point1] != tree_id[e.point2])
             {
-                join(dis, e.point1, e.point2);
-                cost += e.distance;
+                cost += e.weight;
+                // result.push_back(e);
+
+                int old_id = tree_id[e.point1];
+                int new_id = tree_id[e.point2];
+
+                for (int i{0}; i < m; ++i)
+                {
+                    if (tree_id[i] == old_id)
+                    {
+                        tree_id[i] = new_id;
+                    }
+                }
             }
         }
 
+        cout.precision(14);
         cout << cost << "\n";
+
+        // Test print
+        // for (edge &e : result)
+        // {
+        //     cout << e.point1 << "," << e.point2 << ": " << e.weight << endl;
+        // }
+
     }
 
     return 0;
