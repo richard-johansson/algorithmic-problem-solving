@@ -36,11 +36,11 @@ int main()
         }
     }
 
-    // Flood fill queue
+    // Flood fill: queue
     queue<pair<int,int> > myQueue;
     myQueue.push(start);
 
-    // Flood fill already visited
+    // Flood fill: already visited
     bool visited[H][W];
     for (int h{0}; h < H; ++h)
     {
@@ -52,11 +52,8 @@ int main()
     visited[start.first][start.second] = true;
 
     // Flood fill algorithm
-    int iter{0};
     while(!myQueue.empty())
     {
-        if (iter++ == W*H)
-            break;
         pair<int,int> curr = myQueue.front();
         myQueue.pop();
 
@@ -66,7 +63,7 @@ int main()
             ++gold;
         }
 
-        // Check if we are trapped
+        // Check if there is a trap nearby
         if (map[curr.first + 1][curr.second] == 'T' ||
             map[curr.first - 1][curr.second] == 'T' ||
             map[curr.first][curr.second + 1] == 'T' ||
@@ -77,8 +74,8 @@ int main()
 
         // Check if we can move to square below
         if (!visited[curr.first + 1][curr.second] && 
-            map[curr.first + 1][curr.second] == 'G' ||
-            map[curr.first + 1][curr.second] == '.')
+            (map[curr.first + 1][curr.second] == 'G' ||
+            map[curr.first + 1][curr.second] == '.'))
         {
             myQueue.push(make_pair(curr.first + 1, curr.second));
             visited[curr.first + 1][curr.second] = true;
@@ -86,8 +83,8 @@ int main()
 
         // Check if we can move to square above
         if (!visited[curr.first - 1][curr.second] && 
-            map[curr.first - 1][curr.second] == 'G' ||
-            map[curr.first - 1][curr.second] == '.')
+            (map[curr.first - 1][curr.second] == 'G' ||
+            map[curr.first - 1][curr.second] == '.'))
         {
             myQueue.push(make_pair(curr.first - 1, curr.second));
             visited[curr.first - 1][curr.second] = true;
@@ -95,8 +92,8 @@ int main()
 
         // Check if we can move to square to right
         if (!visited[curr.first][curr.second + 1] && 
-            map[curr.first][curr.second + 1] == 'G' ||
-            map[curr.first][curr.second + 1] == '.')
+            (map[curr.first][curr.second + 1] == 'G' ||
+            map[curr.first][curr.second + 1] == '.'))
         {
             myQueue.push(make_pair(curr.first, curr.second + 1));
             visited[curr.first][curr.second + 1] = true;
@@ -104,8 +101,8 @@ int main()
 
         // Check if we can move to square to left
         if (!visited[curr.first][curr.second - 1] && 
-            map[curr.first][curr.second - 1] == 'G' ||
-            map[curr.first][curr.second - 1] == '.')
+            (map[curr.first][curr.second - 1] == 'G' ||
+            map[curr.first][curr.second - 1] == '.'))
         {
             myQueue.push(make_pair(curr.first, curr.second - 1));
             visited[curr.first][curr.second - 1] = true;
