@@ -1,0 +1,139 @@
+/**
+ * @file a-shortestpath1.cc
+ * @author Richard Johansson (ricjo462@student.liu.se)
+ * @brief 
+ */
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+const int INF{1000000000};
+
+/**
+ * @brief 
+ * 
+ * @param s starting node index
+ * @param d distances
+ * @param p predecessors
+ */
+void dijkstra(vector< vector< pair< int, int > > > &adj, int s, vector<int> &d, vector<int> &p)
+{
+    // Fill distances with INF, predecessors with -1 and labels with false
+    int n = adj.size();
+    d.assign(n, INF);
+    p.assign(n, -1);
+    vector<char> u(n, 'f');
+
+    // Starting node costs 0 to get to 
+    d[s] = 0;
+
+    for (int i{0}; i < n; ++i)
+    {
+        int v{-1};
+        for (int j{0}; j < n; ++j)
+        {
+            // Label is false and vertex is unvisited or smallest 
+            if (u[j] == 'f' && (v == -1 || d[j] < d[v]))
+            {
+                v = j;
+            }
+        }
+
+        // Break if distance to vertex is infinity
+        if (d[v] == INF)
+        {
+            break;
+        }
+        // Otherwise, mark the vertex and check all outgoing edges
+        u[v] = 't';
+        for (auto &edge : adj[v])
+        {
+            int to{edge.first};
+            int len{edge.second};
+
+            // Update the distance and predecessor when relaxation is possible
+            if (d[v] + len < d[to])
+            {
+                d[to] = d[v] + len;
+                p[to] = v;
+            }
+        }
+    }
+}
+
+int main ()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    // n = number of nodes, 1 ≤ n ≤ 10 000
+    // m = number of edges, 1 ≤ m ≤ 30 000
+    // q = number of queries, 1 ≤ q ≤ 100
+    // s = index of starting node
+    int n, m, q, s;
+
+    // Read test case data
+    while (cin >> n >> m >> q >> s)
+    {
+        if (n == 0 && m == 0 && q == 0 && s == 0)
+        {
+            return 0;
+        }
+
+        // Test print
+        // cout << "n: " << n << " m: " << m << " q: " << q << " s: " << s << endl;
+
+        // Adjency list of all edges going from the vertex at any index
+        // where the first element in the pair is the vertex at the other 
+        // end and the second element is the weight
+        vector< vector< pair< int, int > > > adj(n);
+
+        // edge from u to v with weight w
+        // 0 ≤ w ≤ 1000
+        int u, v, w;
+        while (m--)
+        {
+            cin >> u >> v >> w;
+
+            // Test print
+            // cout << "u: " << u << " v: " << v << " w: " << w << endl;
+
+            // All edges from node u is added to the list
+            adj[u].push_back(make_pair(v, w));
+        }
+
+        // d = distances
+        // p = predecessors
+        vector<int> d, p;
+        // Calculate all shortest paths from starting node s
+        dijkstra(adj, s, d, p);
+
+        // Queries asking for the minimum distance from 
+        // start node s to given node
+        int query, result;
+        while (q--)
+        {
+            cin >> query;
+
+            // Test print
+            // cout << "query: " << query << endl;
+
+            // Distances stored in vector d
+            result = d[query];
+            if (result == INF)
+            {
+                cout << "Impossible\n";
+            }
+            else
+            {
+                cout << result << "\n";
+            }
+        }
+        cout << "\n";
+    }
+
+    return 0;
+}
