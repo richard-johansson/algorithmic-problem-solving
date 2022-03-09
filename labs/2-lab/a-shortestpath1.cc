@@ -1,19 +1,19 @@
 /**
  * @file a-shortestpath1.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief 
+ * @brief Program that solves the single source shortest path problem. 
  */
 #include <iostream>
 #include <queue>
 #include <algorithm>
-#include <cmath>
 
 using namespace std;
 
 const int INF{1000000000};
 
 /**
- * @brief 
+ * @brief The function takes the starting vertex and two vectors that will be used as return values
+ * and fills them with the distances to the indicies and the predecessors to the indicies.
  * 
  * @param s starting node index
  * @param d distances
@@ -83,9 +83,6 @@ int main ()
             return 0;
         }
 
-        // Test print
-        // cout << "n: " << n << " m: " << m << " q: " << q << " s: " << s << endl;
-
         // Adjency list of all edges going from the vertex at any index
         // where the first element in the pair is the vertex at the other 
         // end and the second element is the weight
@@ -97,9 +94,6 @@ int main ()
         while (m--)
         {
             cin >> u >> v >> w;
-
-            // Test print
-            // cout << "u: " << u << " v: " << v << " w: " << w << endl;
 
             // All edges from node u is added to the list
             adj[u].push_back(make_pair(v, w));
@@ -117,9 +111,6 @@ int main ()
         while (q--)
         {
             cin >> query;
-
-            // Test print
-            // cout << "query: " << query << endl;
 
             // Distances stored in vector d
             result = d[query];
