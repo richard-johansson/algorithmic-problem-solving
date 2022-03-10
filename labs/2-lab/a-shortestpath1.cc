@@ -12,8 +12,9 @@ using namespace std;
 const int INF{1000000000};
 
 /**
- * @brief The function takes the starting vertex and two vectors that will be used as return values
- * and fills them with the distances to the indicies and the predecessors to the indicies.
+ * @brief The function takes the starting vertex and two vectors that 
+ * will be used as return values and fills them with the distances to 
+ * the indicies and the predecessors to the indicies.
  * 
  * @param s starting node index
  * @param d distances
@@ -35,7 +36,7 @@ void dijkstra(vector< vector< pair< int, int > > > &adj, int s, vector<int> &d, 
         int v{-1};
         for (int j{0}; j < n; ++j)
         {
-            // Label is false and vertex is unvisited or smallest 
+            // Label is false and vertex is unvisited or smaller exists
             if (u[j] == 'f' && (v == -1 || d[j] < d[v]))
             {
                 v = j;
@@ -62,6 +63,29 @@ void dijkstra(vector< vector< pair< int, int > > > &adj, int s, vector<int> &d, 
             }
         }
     }
+}
+
+/**
+ * @brief Function that restores the shortest path from the predecessors, 
+ * starting point and ending point
+ * 
+ * @param s start node
+ * @param t end node
+ * @param p predecessors
+ * @return vector<int> shortest path
+ */
+vector<int> restore_path(int s, int t, vector<int> const& p)
+{
+    vector<int> path;
+
+    for (int v{t}; v != s; v = p[v])
+    {
+        path.push_back(v);
+    }
+    path.push_back(s);
+
+    reverse(path.begin(), path.end());
+    return path;
 }
 
 int main ()
@@ -121,6 +145,12 @@ int main ()
             else
             {
                 cout << result << "\n";
+
+                // Print resulting path
+                // cout << "[ ";
+                // for (auto &a : restore_path(s, query, p))
+                //     cout << a << " ";
+                // cout << "]\n";
             }
         }
         cout << "\n";
