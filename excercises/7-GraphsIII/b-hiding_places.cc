@@ -1,7 +1,7 @@
 /**
  * @file b-hiding_places.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief 
+ * @brief Solving Hiding Places problem with Breath First Search
  */
 #include <bits/stdc++.h>
 
