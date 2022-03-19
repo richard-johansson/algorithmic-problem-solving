@@ -18,15 +18,6 @@ void bfs(vector<vector<int>> &distances, int x_start, int y_start, vector<int> &
     q.push(make_pair(x_start, y_start));
     distances[x_start][y_start] = 0;
 
-    // Test print
-    // cout << "|" << setfill('-') << setw(8*13+1) << "|\n" << setfill(' ');
-    // for (auto x : distances) {
-    //     for (auto y : x) {
-    //         cout << "|" << setw(11) << y << " ";
-    //     }
-    //     cout << "|\n|" << setfill('-') << setw(8*13+1) << "|\n" << setfill(' ');
-    // }
-
     // BFS traversal
     while (!q.empty())
     {
@@ -43,7 +34,7 @@ void bfs(vector<vector<int>> &distances, int x_start, int y_start, vector<int> &
             {
                 continue;
             }
-            // Only update if the distance is bigger
+            // Only update if the distance is least 1 bigger
             if (distances[x_next][y_next] > distances[x_curr][y_curr] + 1)
             {
                 distances[x_next][y_next] = distances[x_curr][y_curr] + 1;
@@ -51,15 +42,6 @@ void bfs(vector<vector<int>> &distances, int x_start, int y_start, vector<int> &
             }
         }
     }
-    // Test print
-    // cout << "\n";
-    // cout << "|" << setfill('-') << setw(8*5+1) << "|\n" << setfill(' ');
-    // for (auto x : distances) {
-    //     for (auto y : x) {
-    //         cout << "|" << setw(3) << y << " ";
-    //     }
-    //     cout << "|\n|" << setfill('-') << setw(8*5+1) << "|\n" << setfill(' ');
-    // }
 }
 
 void solve(string start)
@@ -67,7 +49,6 @@ void solve(string start)
     // Convert starting point to 0-indexed ints
     int x_start{start[0] - 'a'};
     int y_start{start[1] - '1'};
-    // cout << "x: " << x_start << " y: " << y_start << endl;
 
     // Vector containing distances from start to each point
     vector< vector <int> > distances(8, vector<int>(8, INT_MAX));
@@ -120,7 +101,6 @@ int main()
         string startPoint{};
         cin >> startPoint;
 
-        // cout << startPoint << ": ";
         solve(startPoint);
     }
 
