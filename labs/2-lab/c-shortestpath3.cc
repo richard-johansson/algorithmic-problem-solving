@@ -35,9 +35,12 @@ void bellman_ford(int n, int s, vector<edge> &edges)
 
     d[s] = 0;
 
-    for (int i{0}; i < n; ++i) {
-        for (edge e : edges) {
-            if (d[e.a] + e.cost < d[e.b] && d[e.a] != INF) {
+    for (int i{0}; i < n; ++i) 
+    {
+        for (edge e : edges) 
+        {
+            if (d[e.a] + e.cost < d[e.b] && d[e.a] != INF) 
+            {
                 d[e.b] = d[e.a] + e.cost;
                 p[e.b] = e.a;
             }
@@ -45,14 +48,16 @@ void bellman_ford(int n, int s, vector<edge> &edges)
     }
 
     // Iterate again to check for negative cycles
-    for (int i{0}; i < n; ++i) {
-        for (edge e : edges) {
+    for (int i{0}; i < n; ++i) 
+    {
+        for (edge e : edges) 
+        {
             // Cannot reach node
             if (d[e.a] == INF)
             {
                 continue;
             }
-            // Start node part of negative cycle -> end node is too
+            // Start node part of negative cycle -> end node is too OR
             // Still get cheaper routes -> end node is part of neg cycle
             if (negCycle[e.a] == 't' || (d[e.a] + e.cost < d[e.b]))
             {
@@ -68,13 +73,13 @@ void bellman_ford(int n, int s, vector<edge> &edges)
  * starting point and ending point
  * 
  * @param s start node
- * @param t end node
+ * @param e end node
  * @return vector<int> shortest path
  */
-vector<int> restore_path(int s, int t)
+vector<int> restore_path(int s, int e)
 {
     vector<int> path;
-    int curr{t};
+    int curr{e};
 
     while (true)
     {
@@ -120,7 +125,7 @@ int main ()
         // List of all edges
         vector<edge> edges;
         
-        cout << n << " " << m << " " << q << " " << s << "\n";
+        //cout << n << " " << m << " " << q << " " << s << "\n";
 
         // edge from u to v with weight w, -2000 ≤ w ≤ 2000
         int u, v, w;
@@ -132,7 +137,7 @@ int main ()
             // All edges from node u is added to the list
             edges.push_back(e);
 
-            cout << " {" << u << " " << v << " " << w << "}\n";
+            //cout << " {" << u << " " << v << " " << w << "}\n";
         }
 
         // Calculate all shortest paths from starting node s
@@ -161,6 +166,7 @@ int main ()
                 cout << result << "\n";
             }
         }
+        /*
         // Print d
         cout << "d: [ ";
         for (auto &a : d)
@@ -178,6 +184,7 @@ int main ()
         for (auto &a : negCycle)
             cout << a << " ";
         cout << "]\n";
+        */
 
         // cout << "[ ";
         // for (auto &a : restore_path(s, query))
