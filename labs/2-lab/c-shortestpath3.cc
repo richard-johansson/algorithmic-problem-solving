@@ -124,8 +124,6 @@ int main ()
 
         // List of all edges
         vector<edge> edges;
-        
-        //cout << n << " " << m << " " << q << " " << s << "\n";
 
         // edge from u to v with weight w, -2000 ≤ w ≤ 2000
         int u, v, w;
@@ -136,8 +134,6 @@ int main ()
 
             // All edges from node u is added to the list
             edges.push_back(e);
-
-            //cout << " {" << u << " " << v << " " << w << "}\n";
         }
 
         // Calculate all shortest paths from starting node s
@@ -166,26 +162,8 @@ int main ()
                 cout << result << "\n";
             }
         }
-        /*
-        // Print d
-        cout << "d: [ ";
-        for (auto &a : d)
-            cout << a << " ";
-        cout << "]\n";
 
-        // Print p
-        cout << "p: [ ";
-        for (auto &a : p)
-            cout << a << " ";
-        cout << "]\n";
-
-        // Print negCycle
-        cout << "negCycle: [ ";
-        for (auto &a : negCycle)
-            cout << a << " ";
-        cout << "]\n";
-        */
-
+        // Restore the path
         // cout << "[ ";
         // for (auto &a : restore_path(s, query))
         //     cout << a << " ";
