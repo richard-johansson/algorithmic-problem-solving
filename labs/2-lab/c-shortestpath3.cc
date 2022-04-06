@@ -1,7 +1,7 @@
 /**
  * @file a-shortestpath1.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief Program that solves the single source shortest path problem. 
+ * @brief Program that solves the single source shortest path, negative weights problem. 
  */
 #include <iostream>
 #include <queue>
