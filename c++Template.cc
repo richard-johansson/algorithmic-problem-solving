@@ -5,9 +5,7 @@
  * @version 1.0
  * @date 2022-01-27
  */
-#include <iostream>
-#include <string>
-#include <sstream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
