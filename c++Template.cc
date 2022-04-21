@@ -2,8 +2,6 @@
  * @file template.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
  * @brief 
- * @version 1.0
- * @date 2022-01-27
  */
 #include <bits/stdc++.h>
 
