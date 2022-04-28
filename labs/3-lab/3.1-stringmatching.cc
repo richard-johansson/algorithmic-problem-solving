@@ -1,7 +1,9 @@
 /**
  * @file 3.1-stringmatching.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief 
+ * @brief Solving the String matching problem using Knuth-Morris-Pratt 
+ * (KMP) algorithm. 
+ * Time complexity is O(text + pattern).
  */
 #include <bits/stdc++.h>
 using namespace std;
@@ -11,7 +13,7 @@ using namespace std;
 // T - the table, computed elsewhere
 void kmp_search(string &S, string &W, vector<int> &T)
 {
-    vector<int> P(S.size(), 0);
+    vector<int> P(S.size(), 0); // positions in S at which W is found
     int nP{0}; // number of positions
 
     int j{0}; // the position of the current character in S
@@ -84,8 +86,7 @@ int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-
-
+ 
     string pattern{};
     string text{};
     while(getline(cin, pattern))
