@@ -40,16 +40,13 @@ vector<int> parse(string clause, int n)
 
     return parsedClause;
 }
-/*
-    0   0   0
-    0   0   1
-    0   1   0
-    0   1   1
-    1   0   0
-    1   0   1
-    1   1   0
-    1   1   1
-*/
+/**
+ * @brief Binary incrementer
+ * 
+ * @param variables array to be incremented
+ * @return true 
+ * @return false if can't increment more
+ */
 bool increment(vector<int> &variables)
 {
     bool done{true};
@@ -74,12 +71,12 @@ bool increment(vector<int> &variables)
         }
     }
     // Test print
-    cout << "(";
-    for (int v : variables)
-    {
-        cout << v;
-    }
-    cout << ")\n";
+    // cout << "(";
+    // for (int v : variables)
+    // {
+    //     cout << v;
+    // }
+    // cout << ")\n";
 
 
     return true;
@@ -141,40 +138,6 @@ bool increment(vector<int> &variables)
     0   1       --> TRUE
 --> TRUE
 */
-// bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables, bool allSatisfied)
-// {
-//     if (allSatisfied)
-//         return true;
-
-//     for (auto &clause : allClauses)
-//     {
-//         bool satisfied{false};
-//         for (auto &literal : clause)
-//         {
-//             // If one literal in the clause is true then whole clause is true
-//             if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
-//             {
-//                 satisfied = true;
-//             }
-//         }
-//         // If one clause is false then all clauses is false
-//         if (!satisfied)
-//         {
-//             allSatisfied = false;
-//             break;
-//         }
-//         else
-//         {
-//             allSatisfied = true;
-//         }
-//     }
-//     if (increment(variables))
-//     {
-//         return satisfiable(allClauses, variables, allSatisfied);
-//     }
-    
-//     return false;
-// }
 bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables)
 {
     bool allSatisfied{false};
@@ -243,14 +206,14 @@ int main()
         }
 
         // TEST PRINT
-        for (auto &a : allClauses)
-        {
-            for (auto &b : a)
-            {
-                cout << setw(3) << b;
-            }
-            cout << "\n";
-        }
+        // for (auto &a : allClauses)
+        // {
+        //     for (auto &b : a)
+        //     {
+        //         cout << setw(3) << b;
+        //     }
+        //     cout << "\n";
+        // }
 
         // SOLVE
         vector<int> variables(n, 0);
