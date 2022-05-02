@@ -82,62 +82,14 @@ bool increment(vector<int> &variables)
     return true;
 }
 
-/*
-    VARIABLES:
-    0   0   0
-    0   0   1
-    0   1   0
-    0   1   1
-    1   0   0
-    1   0   1
-    1   1   0
-    1   1   1
-------------------
-    CLAUSES:
-    1   2   0
-    -1  0   0
-    -2  3   0
--------------------------   (0 0 0)
-    0   0       --> FALSE
-    1           --> TRUE
-    1   0       --> TRUE
---> FALSE
--------------------------   (0 0 1)
-    1   0       --> TRUE
-    0           --> FALSE
-    1   0       --> TRUE
---> FALSE
--------------------------   (0 1 0)
-    0   1       --> TRUE
-    1           --> TRUE
-    0   0       --> FALSE
---> FALSE
--------------------------   (0 1 1)
-    1   1       --> TRUE
-    0           --> FALSE
-    0   0       --> FALSE
---> FALSE
--------------------------   (1 0 0)
-    0   0       --> FALSE
-    1           --> TRUE
-    1   1       --> TRUE
---> FALSE
--------------------------   (1 0 1)
-    1   0       --> TRUE
-    0           --> FALSE
-    1   1       --> TRUE
---> FALSE
--------------------------   (1 1 0)
-    0   1       --> TRUE
-    1           --> TRUE
-    0   1       --> TRUE
---> TRUE
--------------------------   (1 1 1)
-    1   1       --> TRUE
-    1           --> FALSE
-    0   1       --> TRUE
---> TRUE
-*/
+/**
+ * @brief Checks satisfiability
+ * 
+ * @param allClauses 
+ * @param variables 
+ * @return true 
+ * @return false 
+ */
 bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables)
 {
     bool allSatisfied{false};
