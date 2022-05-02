@@ -24,11 +24,11 @@ vector<int> parse(string clause, int n)
     {
         if (clause[i] == 'X')
         {
-            parsedClause.push_back(clause[i+1] - '0');
+            parsedClause.push_back(clause[i+1] - 48);
         }
         else if (clause[i] == '~')
         {
-            parsedClause.push_back(-(clause[i+2] - '0'));
+            parsedClause.push_back(-(clause[i+2] - 48));
         }
     }
 
@@ -50,7 +50,7 @@ vector<int> parse(string clause, int n)
     1   1   0
     1   1   1
 */
-bool increase(vector<int> &variables)
+bool increment(vector<int> &variables)
 {
     bool done{true};
     for (int v : variables)
@@ -73,6 +73,14 @@ bool increase(vector<int> &variables)
             variables[i] = variables[i] % 2;
         }
     }
+    // Test print
+    cout << "(";
+    for (int v : variables)
+    {
+        cout << v;
+    }
+    cout << ")\n";
+
 
     return true;
 }
@@ -133,39 +141,74 @@ bool increase(vector<int> &variables)
     0   1       --> TRUE
 --> TRUE
 */
-bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables, bool allSatisfied)
-{
-    if (allSatisfied)
-        return true;
+// bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables, bool allSatisfied)
+// {
+//     if (allSatisfied)
+//         return true;
 
-    for (auto &clause : allClauses)
+//     for (auto &clause : allClauses)
+//     {
+//         bool satisfied{false};
+//         for (auto &literal : clause)
+//         {
+//             // If one literal in the clause is true then whole clause is true
+//             if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
+//             {
+//                 satisfied = true;
+//             }
+//         }
+//         // If one clause is false then all clauses is false
+//         if (!satisfied)
+//         {
+//             allSatisfied = false;
+//             break;
+//         }
+//         else
+//         {
+//             allSatisfied = true;
+//         }
+//     }
+//     if (increment(variables))
+//     {
+//         return satisfiable(allClauses, variables, allSatisfied);
+//     }
+    
+//     return false;
+// }
+bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables)
+{
+    bool allSatisfied{false};
+
+    do
     {
-        bool satisfied{false};
-        for (auto &literal : clause)
+        for (auto &clause : allClauses)
         {
-            // If one literal in the clause is true then whole clause is true
-            if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
+            bool satisfied{false};
+            for (auto &literal : clause)
             {
-                satisfied = true;
+                // cout << "testing literal = " << literal << " && variables[" << abs(literal)-1 << "] = " << variables[abs(literal)-1];
+                // If one literal in the clause is true then whole clause is true
+                if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
+                {
+                    satisfied = true;
+                }
+                // cout << " --> " << satisfied << endl;
+            }
+            // If one clause is false then all clauses is false
+            if (!satisfied)
+            {
+                allSatisfied = false;
+                break;
+            }
+            else
+            {
+                allSatisfied = true;
             }
         }
-        // If one clause is false then all clauses is false
-        if (!satisfied)
-        {
-            allSatisfied = false;
-            break;
-        }
-        else
-        {
-            allSatisfied = true;
-        }
     }
-    if (increase(variables))
-    {
-        return satisfiable(allClauses, variables, allSatisfied);
-    }
-    
-    return false;
+    while (increment(variables) && !allSatisfied);
+
+    return allSatisfied;
 }
 
 int main()
@@ -199,9 +242,20 @@ int main()
             allClauses.push_back(parse(clause, n));
         }
 
+        // TEST PRINT
+        for (auto &a : allClauses)
+        {
+            for (auto &b : a)
+            {
+                cout << setw(3) << b;
+            }
+            cout << "\n";
+        }
+
         // SOLVE
         vector<int> variables(n, 0);
-        if (satisfiable(allClauses, variables, false))
+        // if (satisfiable(allClauses, variables, false))
+        if (satisfiable(allClauses, variables))
         {
             cout << "satisfiable\n";
         }
