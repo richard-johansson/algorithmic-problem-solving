@@ -2,9 +2,6 @@
  * @file a-satisfiability.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
  * @brief SAT problem
- * https://liu.kattis.com/problems/satisfiability
- * https://cp-algorithms.com/graph/2SAT.html
- * https://www.geeksforgeeks.org/2-satisfiability-2-sat-problem/
  */
 #include <bits/stdc++.h>
 
@@ -77,14 +74,6 @@ bool increase(vector<int> &variables)
         }
     }
 
-    // Test print
-    // cout << "(";
-    // for (int v : variables)
-    // {
-    //     cout << v;
-    // }
-    // cout << ")\n";
-
     return true;
 }
 
@@ -146,25 +135,20 @@ bool increase(vector<int> &variables)
 */
 bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables, bool allSatisfied)
 {
-    // cout << "allSatisfied: " << allSatisfied << endl;
     if (allSatisfied)
         return true;
 
     for (auto &clause : allClauses)
     {
         bool satisfied{false};
-        // cout << "clause.size(): " << clause.size() << endl;
         for (auto &literal : clause)
         {
-            // cout << "testing literal = " << literal << " && variables[" << abs(literal)-1 << "] = " << variables[abs(literal)-1];
             // If one literal in the clause is true then whole clause is true
             if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
             {
                 satisfied = true;
             }
-            // cout << " --> " << satisfied << endl;
         }
-        // cout << satisfied << endl;
         // If one clause is false then all clauses is false
         if (!satisfied)
         {
@@ -176,7 +160,6 @@ bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables, bool a
             allSatisfied = true;
         }
     }
-    // cout << "DONE" << endl;
     if (increase(variables))
     {
         return satisfiable(allClauses, variables, allSatisfied);
@@ -213,24 +196,11 @@ int main()
             string clause{};
             getline(cin, clause);
 
-            // cout << clause << endl;
             allClauses.push_back(parse(clause, n));
         }
 
-        // TEST PRINT
-        // for (auto &a : allClauses)
-        // {
-        //     for (auto &b : a)
-        //     {
-        //         cout << setw(3) << b;
-        //     }
-        //     cout << "\n";
-        // }
-        // cout << "\n";
-
         // SOLVE
         vector<int> variables(n, 0);
-
         if (satisfiable(allClauses, variables, false))
         {
             cout << "satisfiable\n";
