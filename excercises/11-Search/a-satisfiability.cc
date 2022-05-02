@@ -24,6 +24,10 @@ vector<int> parse(string clause, int n)
     {
         if (clause[i] == 'X')
         {
+            // TODO: variable can be X1 to X20
+            // This solution can only handle up to X9
+            // need string splitting and assume one or
+            // two digits!
             parsedClause.push_back(clause[i+1] - 48);
         }
         else if (clause[i] == '~')
@@ -71,12 +75,12 @@ bool increment(vector<int> &variables)
         }
     }
     // Test print
-    // cout << "(";
-    // for (int v : variables)
-    // {
-    //     cout << v;
-    // }
-    // cout << ")\n";
+    cout << "(";
+    for (int v : variables)
+    {
+        cout << v;
+    }
+    cout << ")\n";
 
 
     return true;
@@ -101,14 +105,15 @@ bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables)
             bool satisfied{false};
             for (auto &literal : clause)
             {
-                // cout << "testing literal = " << literal << " && variables[" << abs(literal)-1 << "] = " << variables[abs(literal)-1];
+                cout << "testing literal = " << literal << " && variables[" << abs(literal)-1 << "] = " << variables[abs(literal)-1];
                 // If one literal in the clause is true then whole clause is true
                 if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
                 {
                     satisfied = true;
                 }
-                // cout << " --> " << satisfied << endl;
+                cout << " --> " << satisfied << endl;
             }
+            cout << "SAT: " << satisfied << endl;
             // If one clause is false then all clauses is false
             if (!satisfied)
             {
@@ -169,7 +174,7 @@ int main()
 
         // SOLVE
         vector<int> variables(n, 0);
-        // if (satisfiable(allClauses, variables, false))
+
         if (satisfiable(allClauses, variables))
         {
             cout << "satisfiable\n";
