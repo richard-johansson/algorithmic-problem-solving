@@ -4,7 +4,6 @@
  * @brief SAT problem
  */
 #include <bits/stdc++.h>
-
 using namespace std;
 
 /**
@@ -24,29 +23,16 @@ vector<int> parse(string clause, int n)
     {
         if (clause[i] == 'X')
         {
-            // TODO: variable can be X1 to X20
-            // This solution can only handle up to X9
-            // need string splitting and assume one or
-            // two digits!
-
-            // cout << stoi(clause.substr(i+1, i+3)) << endl;
             parsedClause.push_back(stoi(clause.substr(i+1, i+3)));
         }
         else if (clause[i] == '~')
         {
-            // cout << - stoi(clause.substr(i+2, i+4)) << endl;
             parsedClause.push_back(- stoi(clause.substr(i+2, i+4)));
         }
     }
-
-    // int len = n - parsedClause.size();
-    // while (len--)
-    // {
-    //     parsedClause.push_back(0);
-    // }
-
     return parsedClause;
 }
+
 /**
  * @brief Binary incrementer
  * 
@@ -85,7 +71,6 @@ bool increment(vector<int> &variables)
     // }
     // cout << ")\n";
 
-
     return true;
 }
 
@@ -108,15 +93,12 @@ bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables)
             bool satisfied{false};
             for (auto &literal : clause)
             {
-                // cout << "testing literal = " << literal << " && variables[" << abs(literal)-1 << "] = " << variables[abs(literal)-1];
                 // If one literal in the clause is true then whole clause is true
                 if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
                 {
                     satisfied = true;
                 }
-                // cout << " --> " << satisfied << endl;
             }
-            // cout << "SAT: " << satisfied << endl;
             // If one clause is false then all clauses is false
             if (!satisfied)
             {
@@ -151,11 +133,6 @@ int main()
         cin >> n >> m;
         cin.ignore(1, '\n');
 
-
-        // Each clause is a disjunction of literals in the form X𝑖 or ~X𝑖 
-        // for some 1≤𝑖≤𝑛, where ~X𝑖 indicates the negation of the literal X𝑖. 
-        // The “or” operator is denoted by a ‘v’ character and is seperated 
-        // from literals with a single space.
         vector<vector<int>> allClauses;
         for (int i{0}; i < m; ++i)
         {
@@ -186,8 +163,6 @@ int main()
         {
             cout << "unsatisfiable\n";
         }
-
-
     }
     return 0;
 }
