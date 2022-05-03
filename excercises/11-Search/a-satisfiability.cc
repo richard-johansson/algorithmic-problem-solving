@@ -28,11 +28,14 @@ vector<int> parse(string clause, int n)
             // This solution can only handle up to X9
             // need string splitting and assume one or
             // two digits!
-            parsedClause.push_back(clause[i+1] - 48);
+
+            // cout << stoi(clause.substr(i+1, i+3)) << endl;
+            parsedClause.push_back(stoi(clause.substr(i+1, i+3)));
         }
         else if (clause[i] == '~')
         {
-            parsedClause.push_back(-(clause[i+2] - 48));
+            // cout << - stoi(clause.substr(i+2, i+4)) << endl;
+            parsedClause.push_back(- stoi(clause.substr(i+2, i+4)));
         }
     }
 
@@ -75,12 +78,12 @@ bool increment(vector<int> &variables)
         }
     }
     // Test print
-    cout << "(";
-    for (int v : variables)
-    {
-        cout << v;
-    }
-    cout << ")\n";
+    // cout << "(";
+    // for (int v : variables)
+    // {
+    //     cout << v;
+    // }
+    // cout << ")\n";
 
 
     return true;
@@ -105,15 +108,15 @@ bool satisfiable(vector<vector<int>> &allClauses, vector<int> &variables)
             bool satisfied{false};
             for (auto &literal : clause)
             {
-                cout << "testing literal = " << literal << " && variables[" << abs(literal)-1 << "] = " << variables[abs(literal)-1];
+                // cout << "testing literal = " << literal << " && variables[" << abs(literal)-1 << "] = " << variables[abs(literal)-1];
                 // If one literal in the clause is true then whole clause is true
                 if ((literal > 0 && variables[abs(literal)-1]) || (literal < 0 && !variables[abs(literal)-1]))
                 {
                     satisfied = true;
                 }
-                cout << " --> " << satisfied << endl;
+                // cout << " --> " << satisfied << endl;
             }
-            cout << "SAT: " << satisfied << endl;
+            // cout << "SAT: " << satisfied << endl;
             // If one clause is false then all clauses is false
             if (!satisfied)
             {
@@ -167,7 +170,7 @@ int main()
         // {
         //     for (auto &b : a)
         //     {
-        //         cout << setw(3) << b;
+        //         cout << setw(4) << b;
         //     }
         //     cout << "\n";
         // }
