@@ -1,9 +1,16 @@
 /**
- * @file e-fenwick-tree.cc
+ * @file 1.5-fenwick-tree.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief Program that creates a Fenwick Tree (Binary 
- * Indexed Tree, BIT) and can add and output the sum.
+ * @brief Program that creates a Fenwick Tree (Binary Indexed Tree, BIT)
+ * and can add and output the sum.
  * Time complexity is O(log n) for add and sum.
+ * 
+ * The idea is based on the fact that all positive integers can be 
+ * represented as the sum of powers of 2. For example 19 can be represented 
+ * as 16 + 2 + 1. Every node of the BIT stores the sum of n elements where n
+ * is a power of 2. The number of set bits in the binary representation of a 
+ * number n is O(Logn). Therefore, we traverse at-most O(Logn) nodes in both 
+ * sum() and add() operations.
  */
 #include <iostream>
 
