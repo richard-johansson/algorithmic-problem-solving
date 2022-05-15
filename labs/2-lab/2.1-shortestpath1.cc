@@ -1,7 +1,14 @@
 /**
  * @file a-shortestpath1.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief Program that solves the single source shortest path problem. 
+ * @brief Program that solves the single source shortest path problem
+ * using Dijkstras algorithm.
+ * 
+ * Time complexity: O(n^2 + m), where the running time consists of:
+ * - n searches for a vertex with the smallest value d[v] among O(n)
+ * unmarked vertices
+ * - m relaxation attempts.
+ * This complexity is optimal for dense graph, i.e. when m ≈ n^2.
  */
 #include <iostream>
 #include <queue>
