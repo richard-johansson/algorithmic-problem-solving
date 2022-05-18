@@ -1,7 +1,10 @@
 /**
  * @file a-shortestpath1.cc
  * @author Richard Johansson (ricjo462@student.liu.se)
- * @brief Program that solves the single source shortest path, negative weights problem. 
+ * @brief Program that solves the single source shortest path, negative 
+ * weights problem using the Bellman Ford algorithm. 
+ * 
+ * Time complexity: O(m*n)
  */
 #include <iostream>
 #include <queue>
@@ -10,17 +13,28 @@
 using namespace std;
 
 const int INF{1000000000};
-vector<int> d;
-vector<int> p;
-vector<char> negCycle;
+vector<int> d; // Distances
+vector<int> p; // Predecessor
+vector<char> negCycle; // If a negative cycle is present
 
+/**
+ * @brief A structure for representing the edges in the graph. 
+ * Each edge consists of a start point a, end point b and cost.
+ */
 struct edge
 {
     int a,b,cost;
 };
 
 /**
- * @brief 
+ * @brief The algorithm consists of several phases. Each phase scans 
+ * through all edges of the graph, and the algorithm tries to produce 
+ * relaxation along each edge (a,b) with weight cost, by using the edge 
+ * and current response for vertex a. 
+ * To prevent endless relaxation, there are only n - 1 phases. If if 
+ * we run algorithm for one more phase, and it performs at least one 
+ * more relaxation, then the graph contains a negative weight cycle that 
+ * is reachable from, otherwise, such a cycle does not exist.
  * 
  * @param n number of vertices/nodes
  * @param s starting node
@@ -70,7 +84,11 @@ void bellman_ford(int n, int s, vector<edge> &edges)
 
 /**
  * @brief Function that restores the shortest path from the predecessors, 
- * starting point and ending point
+ * starting point and ending point.
+ * 
+ * Using the predecessor vector p, the shortest path to some vertex a, is 
+ * is a shortest path to some vertex p[a], to which we added a at the end 
+ * of the path.
  * 
  * @param s start node
  * @param e end node
