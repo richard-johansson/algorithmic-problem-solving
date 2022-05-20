@@ -68,7 +68,9 @@ void fill_kmp_table(string &W, vector<int> &T)
  */
 void kmp_search(string &S, string &W)
 {
-    vector<int> T(W.size(), 0); // the KMP table to be filled 
+    vector<int> T; // the KMP table to be filled 
+    T.assign(S.size(), 0); 
+    for (auto &t : T) cout << t << " "; cout << endl;
     fill_kmp_table(W, T);
 
     vector<int> P(S.size(), 0); // positions in S at which W is found
@@ -120,6 +122,8 @@ int main()
     {
         getline(cin, text);
         kmp_search(text, pattern);
+        pattern = "";
+        text = "";
     }
     return 0;
 }
