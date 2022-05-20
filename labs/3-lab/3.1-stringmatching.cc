@@ -9,6 +9,10 @@
  * matched characters. 
  * 
  * Time complexity is O(text + pattern).
+ * 
+ * VALGRIND:
+ * g++ -std=c++17 -g 3.1-stringmatching.cc 
+ * valgrind --tool=memcheck  --leak-check=full --show-leak-kinds=all ./a.out
  */
 #include <bits/stdc++.h>
 using namespace std;
