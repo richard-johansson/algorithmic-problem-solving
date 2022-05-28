@@ -3,6 +3,8 @@
  * @author Richard Johansson (ricjo462@student.liu.se)
  * @brief Computes the area of a simple polygon, and the direction 
  * (clockwise or counterclockwise) in which its vertices are given.
+ * 
+ * Time complexity is O(n)
  */
 #include <bits/stdc++.h>
 using namespace std;
@@ -14,30 +16,30 @@ struct point
 
 /**
  * @brief Calculates the area from the points. Formula used is
- * | 1/2 * [ (x1y2 + x2y3 + … + xn-1yn + xny1) 
- *   – (x2y1 + x3y2 + … + xnyn-1 + x1yn) ] |
+ * area = 1/2 * [ (x0y1 + x1y2 + … + xn-2yn-1 + xn-1y0) 
+ *          – (x1y0 + x2y1 + … + xn-1yn-2 + x0yn-1) ]
  * 
- * @param points 
- * @return double 
+ * Positive answer means the points are given in counter clock-
+ * wise order and negative answer means clockwise order.
+ * 
+ * @param points The points given in order
+ * @return double The area of the polygon, with the sign indicating
+ * CW or CCW order of the points.
  */
 double calculateArea(vector<point> &points)
 {
     double area{0.0};
+    int n = points.size(), j{1};
 
-    int n = points.size();
-    // int j{n - 1};
-    // for (int i{0}; i < n; ++i)
-    // {
-    //     area += (points[j].x + points[i].x) * (points[j].y + points[i].y);
-    //     j = i;
-    // }
-
-    for(int i{0}, j{1}; i < n; ++i, j = (j+1) % n) {
-        area += points[i].x * points[j].y;
-        area -= points[i].y * points[j].x;
+    // Looping
+    // i: 0,1,2,...,n-1
+    // j: 1,2,...,n-1,0
+    for(int i{0}; i < n; ++i) {
+        j = (i+1) % n;
+        area += 0.5 * (points[i].x * points[j].y - points[i].y * points[j].x);
     }
 
-    return (area / 2.0);
+    return (area);
 }
 
 int main()
@@ -59,15 +61,12 @@ int main()
             points.push_back(point);
         }
 
-        // Test print
-        // for (auto &p : points)
-        // {
-        //     cout << "(" << p.x << "," << p.y << ")" << endl;
-        // }
-
+        // Solve
         double area = calculateArea(points);
-        cout << setprecision(1) << fixed;
         
+        // Depending on the sign, the points are in clockwise
+        // or counter clockwise order.
+        cout << setprecision(1) << fixed;
         if (area < 0)
             cout << "CW " << abs(area) << "\n";
         else
